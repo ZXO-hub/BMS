@@ -14,11 +14,12 @@ jobs:
                 touch /home/runner/.ssh/known_hosts
                 ls /home/runner/.ssh
                 echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-                chmod 700 ~/ssh_key
-                ssh -i ~/ssh_key ubuntu@47.128.152.231
-                cd BMS/ git pull
-                pnpm install
-                pnpm run build
-                pm2 restart fe-server
-                pm2 restart http-server
-                pm2 restart ws-server
+                chmod 600 ~/ssh_key
+                ssh -i ~/ssh_key ubuntu@47.128.152.231 << 'EOF'
+                    cd BMS/ git pull
+                    pnpm install
+                    pnpm run build
+                    pm2 restart fe-server
+                    pm2 restart http-server
+                    pm2 restart ws-server
+                EOF
