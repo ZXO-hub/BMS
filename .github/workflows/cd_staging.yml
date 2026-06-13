@@ -15,7 +15,7 @@ jobs:
                 ls /home/runner/.ssh
                 echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
                 chmod 700 ~/ssh_key
-                ssh -i ~/ssh_key root@47.128.152.231
+                ssh -i ~/ssh_key ubuntu@47.128.152.231
                 cd BMS/ git pull
                 pnpm install
                 pnpm run build
