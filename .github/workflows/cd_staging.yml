@@ -10,6 +10,7 @@ jobs:
         steps:
             - run: |
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+                mkdir -p ~/.ssh
                 echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
                 chmod 600 ~/ssh_key
                 ssh -i ~/ssh_key root@47.128.152.231
