@@ -1,0 +1,38 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  redeploy_everything:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+          ssh -i ~/ssh_key ubuntu@13.250.15.61 << 'EOF'
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+            node -v
+            pnpm -v
+            pm2 -v
+
+            cd ~/BMS
+
+            git pull origin production
+            pnpm install
+            pnpm run build
+
+            pm2 restart fe-server
+            pm2 restart http-server
+            pm2 restart ws-server
+          EOF
