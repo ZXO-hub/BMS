@@ -10,11 +10,11 @@ jobs:
         steps:
             - run: |
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-                mkdir /home/runner/.ssh
+                mkdir -p /home/runner/.ssh
                 touch /home/runner/.ssh/known_hosts
                 ls /home/runner/.ssh
                 echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-                chmod 600 ~/ssh_key
+                chmod 700 ~/ssh_key
                 ssh -i ~/ssh_key root@47.128.152.231
                 cd BMS/ git pull
                 pnpm install
