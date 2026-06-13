@@ -1,4 +1,4 @@
-name: Deploy to Staging
+name: Deploy to Production
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
           chmod 600 ~/ssh_key
 
           mkdir -p ~/.ssh
-          echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          echo "${{ secrets.KNOWN_HOSTS_2 }}" > ~/.ssh/known_hosts
 
           ssh -i ~/ssh_key ubuntu@13.250.15.61 << 'EOF'
             export NVM_DIR="$HOME/.nvm"
