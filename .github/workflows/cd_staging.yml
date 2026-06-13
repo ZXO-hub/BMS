@@ -28,7 +28,7 @@ jobs:
 
             cd ~/BMS
 
-            git pull
+            git pull origin main
             pnpm install
             pnpm run build
 
